@@ -1,0 +1,80 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestion de Equipos {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong class="text-dark">{{ message }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <h2>Gestión de Equipos de Cómputo</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/registrarEquipo/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="txtCodigo" name="txtCodigo" class="form-control" placeholder="Código"
+                               minlength="1" maxlength="30" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtTipo" name="txtTipo" class="form-control" placeholder="Tipo"
+                               minlength="1" maxlength="20" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtMarca" name="txtMarca" class="form-control" placeholder="Marca"
+                               minlength="1" maxlength="20" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtModelo" name="txtModelo" class="form-control" placeholder="Modelo"
+                               minlength="1" maxlength="30" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtColor" name="txtColor" class="form-control" placeholder="Color"
+                           minlength="1" maxlength="20" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+        <h1>Listado de Elementos de Computación</h1>
+        <div class="table-responsive py-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Código de activo fijo</th>
+                        <th>Tipo</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Color</th>
+                        <th colspan="2">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in equipos %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{c.codigo_activo_fijo}}</td>
+                        <td>{{c.tipo}}</td>
+                        <td>{{c.marca}}</td>
+                        <td>{{c.modelo}}</td>
+                        <td>{{c.color}}</td>
+                        <td><a href="edicionEquipo/{{c.codigo_activo_fijo}}" class="btn btn-info">Editar</a></td>
+                        <td><a href="eliminacionEquipo/{{c.codigo_activo_fijo}}" class="btn btn-danger btnEliminacion">Eliminar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
